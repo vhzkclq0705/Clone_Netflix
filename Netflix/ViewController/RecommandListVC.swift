@@ -31,15 +31,8 @@ extension RecommandListVC: UICollectionViewDataSource, UICollectionViewDelegate 
 }
 
 extension RecommandListVC: UICollectionViewDelegateFlowLayout {
-    // 옆 간격
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width / 4
-        let height: CGFloat = collectionView.frame.height
         
-        return CGSize(width: width, height: height)
+        return CGSize(width: 120, height: 160)
     }
 }
