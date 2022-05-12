@@ -206,6 +206,48 @@
             </objects>
             <point key="canvasLocation" x="-2089.2307692307691" y="624.17061611374402"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="nPu-wF-bf8">
+            <objects>
+                <viewController id="S81-8k-cok" customClass="Home2VC" customModule="Netflix" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lu5-tT-ytf">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AWK-Hd-m7z">
+                                <rect key="frame" x="0.0" y="-6" width="390" height="767"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0Oh-3W-exk">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="S81-8k-cok" id="mQr-d4-AFZ"/>
+                                    <outlet property="delegate" destination="S81-8k-cok" id="Rgf-b5-Mb3"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QaQ-ft-Z1A"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QaQ-ft-Z1A" firstAttribute="trailing" secondItem="AWK-Hd-m7z" secondAttribute="trailing" id="6XV-LY-Zws"/>
+                            <constraint firstItem="AWK-Hd-m7z" firstAttribute="leading" secondItem="QaQ-ft-Z1A" secondAttribute="leading" id="7rX-tk-qm0"/>
+                            <constraint firstItem="QaQ-ft-Z1A" firstAttribute="top" secondItem="AWK-Hd-m7z" secondAttribute="top" constant="50" id="gzS-m5-Yqp"/>
+                            <constraint firstItem="QaQ-ft-Z1A" firstAttribute="bottom" secondItem="AWK-Hd-m7z" secondAttribute="bottom" id="kHI-Lc-gEu"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="w8O-Ef-EuY"/>
+                    <connections>
+                        <outlet property="collectionView" destination="AWK-Hd-m7z" id="PpU-Mx-0Ae"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yln-X6-Qn2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-786.15384615384608" y="-206.1611374407583"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0Yu-Dh-a6F">
             <objects>
@@ -222,7 +264,7 @@
                         <segue destination="fGo-kZ-YLh" kind="relationship" relationship="viewControllers" id="fcN-r9-hWL"/>
                         <segue destination="5yx-MD-siF" kind="relationship" relationship="viewControllers" id="3zK-n3-Ule"/>
                         <segue destination="orM-ux-enA" kind="relationship" relationship="viewControllers" id="9Z5-Pq-Sem"/>
-                        <segue destination="05Q-89-uzz" kind="relationship" relationship="viewControllers" id="CRd-mF-tpM"/>
+                        <segue destination="S81-8k-cok" kind="relationship" relationship="viewControllers" id="di7-t2-2Az"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tgA-Iv-wUu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -8,5 +8,5 @@
 import UIKit
 
 class HomeCell: UICollectionViewCell {
-
+    static let identifier = "homeCell"
 }

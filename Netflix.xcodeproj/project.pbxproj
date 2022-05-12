@@ -17,6 +17,9 @@
 		764C2768282912740004E83B /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C2767282912740004E83B /* SearchCell.swift */; };
 		764C276C282922F30004E83B /* RecommandListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C276B282922F30004E83B /* RecommandListVC.swift */; };
 		764C2773282924E30004E83B /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C2772282924E30004E83B /* HomeCell.swift */; };
+		764C2775282A40470004E83B /* Home2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C2774282A40470004E83B /* Home2VC.swift */; };
+		764C2777282A44480004E83B /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C2776282A44480004E83B /* MainCell.swift */; };
+		764C2779282A49580004E83B /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764C2778282A49580004E83B /* SectionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		764C2767282912740004E83B /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		764C276B282922F30004E83B /* RecommandListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandListVC.swift; sourceTree = "<group>"; };
 		764C2772282924E30004E83B /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		764C2774282A40470004E83B /* Home2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home2VC.swift; sourceTree = "<group>"; };
+		764C2776282A44480004E83B /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
+		764C2778282A49580004E83B /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				764C2763282906300004E83B /* SearchVC.swift */,
+				764C2774282A40470004E83B /* Home2VC.swift */,
 				764C27652829098E0004E83B /* HomeVC.swift */,
 				764C276B282922F30004E83B /* RecommandListVC.swift */,
 			);
@@ -92,6 +99,8 @@
 			children = (
 				764C2767282912740004E83B /* SearchCell.swift */,
 				764C2772282924E30004E83B /* HomeCell.swift */,
+				764C2776282A44480004E83B /* MainCell.swift */,
+				764C2778282A49580004E83B /* SectionHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -178,9 +187,12 @@
 				764C2768282912740004E83B /* SearchCell.swift in Sources */,
 				764C27662829098E0004E83B /* HomeVC.swift in Sources */,
 				764C2773282924E30004E83B /* HomeCell.swift in Sources */,
+				764C2775282A40470004E83B /* Home2VC.swift in Sources */,
 				764C276C282922F30004E83B /* RecommandListVC.swift in Sources */,
 				764C274F2828FEA50004E83B /* AppDelegate.swift in Sources */,
+				764C2779282A49580004E83B /* SectionHeaderView.swift in Sources */,
 				764C27512828FEA50004E83B /* SceneDelegate.swift in Sources */,
+				764C2777282A44480004E83B /* MainCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
