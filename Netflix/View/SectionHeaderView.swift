@@ -9,4 +9,6 @@ import UIKit
 
 class SectionHeaderView: UICollectionReusableView {
     static let identifier = ["header1", "header2", "header3"]
+    
+    @IBOutlet weak var headerLabel: UILabel!
 }

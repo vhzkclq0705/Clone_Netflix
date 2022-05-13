@@ -9,4 +9,5 @@ import UIKit
 
 class MainCell: UICollectionViewCell {
     static let identifier = "mainCell"
+    @IBOutlet weak var thumbnailImage: UIImageView!
 }

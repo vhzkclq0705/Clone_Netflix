@@ -8,5 +8,5 @@
 import UIKit
 
 class SearchCell: UICollectionViewCell {
-
+    @IBOutlet weak var thumbnailImage: UIImageView!
 }
