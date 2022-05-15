@@ -14,7 +14,7 @@ class SearchVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     
-    let searchViewModel = SearchViewModel()
+    let viewModel = SearchViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +24,13 @@ class SearchVC: UIViewController {
 
 extension SearchVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchViewModel.numOfMovies
+        return viewModel.numOfMovies
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
         
-        cell.thumbnailImage.kf.setImage(with: searchViewModel.showThumbnail(indexPath.item))
+        cell.thumbnailImage.kf.setImage(with: viewModel.showThumbnail(indexPath.item))
         
         return cell
     }
@@ -38,12 +38,11 @@ extension SearchVC: UICollectionViewDataSource {
 
 extension SearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let sb = UIStoryboard(name: "Player", bundle: nil)
         guard let vc = sb.instantiateViewController(withIdentifier: "PlayerViewVC") as? PlayerViewVC else { return }
         
         vc.modalPresentationStyle = .fullScreen
-        vc.player.replaceCurrentItem(with: searchViewModel.playMovie(indexPath.item))
+        vc.player.replaceCurrentItem(with: viewModel.playMovie(indexPath.item))
         present(vc, animated: true, completion: nil)
     }
 }
@@ -71,7 +70,7 @@ extension SearchVC: UISearchBarDelegate {
         dismissKeyboard()
 
         if let searchTerm = searchBar.text, searchTerm.isEmpty == false {
-            searchViewModel.searchMovies(searchTerm) { [weak self] in
+            viewModel.searchMovies(searchTerm) { [weak self] in
                 DispatchQueue.main.async {
                     self?.searchCollectionView.reloadData()
                 }
@@ -79,5 +78,4 @@ extension SearchVC: UISearchBarDelegate {
         }
         
     }
-    
 }

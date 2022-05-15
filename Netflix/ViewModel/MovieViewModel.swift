@@ -8,6 +8,7 @@
 import UIKit
 
 enum Section: Int, CaseIterable {
+    case main
     case award
     case hot
     case my
@@ -22,24 +23,22 @@ enum Section: Int, CaseIterable {
 }
 
 class MovieViewModel {
-    private (set) var type: Section = .my
-    
-    var recommendmovies = [RecommendMovie]()
+    var recommendMovies = [RecommendMovie]()
     
     var numOfMovies: Int {
-        return recommendmovies.count
+        return recommendMovies.count
     }
     
-    func item(_ index: Int) -> RecommendMovie {
-        return recommendmovies[index]
+    var awardMovies: [RecommendMovie] {
+        return fetch(.award)
     }
     
-    func updateType(_ type: Section) {
-        self.type = type
+    var hotMovies: [RecommendMovie] {
+        return fetch(.hot)
     }
     
-    func fetchMovies() {
-        self.recommendmovies = fetch(type)
+    var myMovies: [RecommendMovie] {
+        return fetch(.my)
     }
 }
 
