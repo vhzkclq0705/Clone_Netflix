@@ -43,6 +43,7 @@ extension SearchVC: UICollectionViewDelegate {
         
         vc.modalPresentationStyle = .fullScreen
         vc.player.replaceCurrentItem(with: viewModel.playMovie(indexPath.item))
+        vc.movieInfo = viewModel.searchMovies[indexPath.item]
         present(vc, animated: true, completion: nil)
     }
 }

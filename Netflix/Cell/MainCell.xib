@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="MainCell" customModule="Netflix" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="500"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="500"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="pmp-i0-sR0">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="450"/>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="321-cC-J5V">
+                        <rect key="frame" x="50" y="435" width="300" height="35"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7cX-tr-Jy0">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="35"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" imagePlacement="top" title="내가 찜한 콘텐츠">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="15"/>
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="plusButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Ird-Ko-llD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Byb-IF-Vqv">
+                                <rect key="frame" x="100" y="0.0" width="100" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="1F8-tx-gbx"/>
+                                    <constraint firstAttribute="height" constant="35" id="pII-V7-Jvg"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="play.fill" catalog="system" subtitle="   재생">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="15"/>
+                                    <fontDescription key="subtitleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="playButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="FJB-pN-IlM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xxv-UM-TXi">
+                                <rect key="frame" x="230" y="0.0" width="70" height="35"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system" imagePlacement="top" title="정보">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="15"/>
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="15"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="infoButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="7cI-C1-vZ9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Byb-IF-Vqv" firstAttribute="centerX" secondItem="321-cC-J5V" secondAttribute="centerX" id="Rvy-UQ-1e2"/>
+                            <constraint firstItem="Byb-IF-Vqv" firstAttribute="leading" secondItem="7cX-tr-Jy0" secondAttribute="trailing" constant="20" id="hfW-yU-6DD"/>
+                            <constraint firstItem="xxv-UM-TXi" firstAttribute="leading" secondItem="Byb-IF-Vqv" secondAttribute="trailing" constant="30" id="yng-FE-13d"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="pmp-i0-sR0" secondAttribute="trailing" id="Nup-JO-d9i"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="leading" secondItem="pmp-i0-sR0" secondAttribute="leading" id="OuB-Dl-Y3c"/>
+                <constraint firstItem="pmp-i0-sR0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Pba-m4-ZF3"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="321-cC-J5V" secondAttribute="bottom" constant="30" id="UAN-Pk-ukr"/>
+                <constraint firstItem="321-cC-J5V" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="d72-FH-kUf"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="pmp-i0-sR0" secondAttribute="bottom" constant="50" id="rd3-Du-hHf"/>
+            </constraints>
+            <connections>
+                <outlet property="infoButton" destination="xxv-UM-TXi" id="2rj-vr-cie"/>
+                <outlet property="playButton" destination="Byb-IF-Vqv" id="aUr-Fc-Unv"/>
+                <outlet property="plusButton" destination="7cX-tr-Jy0" id="dEa-hF-pmw"/>
+                <outlet property="thumbnailImage" destination="pmp-i0-sR0" id="O1f-pZ-0Q8"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="113.83928571428571"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="play.fill" catalog="system" width="116" height="128"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+    </resources>
+</document>

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 enum Section: Int, CaseIterable {
     case main
@@ -29,6 +30,10 @@ class MovieViewModel {
         return recommendMovies.count
     }
     
+    var mainMovie: RecommendMovie {
+        return fetch(.main)[0]
+    }
+    
     var awardMovies: [RecommendMovie] {
         return fetch(.award)
     }
@@ -45,6 +50,9 @@ class MovieViewModel {
 extension MovieViewModel {
     func fetch(_ type: Section) -> [RecommendMovie] {
         switch type {
+        case .main:
+            let movies = [RecommendMovie(thmbnail: UIImage(named: "img_header")!)]
+            return movies
         case .award:
             let movies = (1..<10).map { RecommendMovie(thmbnail: UIImage(named: "img_movie_\($0)")!) }
             return movies

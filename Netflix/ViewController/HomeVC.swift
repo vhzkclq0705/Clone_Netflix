@@ -6,18 +6,22 @@
 //
 
 import UIKit
+import AVFoundation
 
 class HomeVC: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
-    let viewModel = MovieViewModel()
+    let movieViewModel = MovieViewModel()
+    let savedViewModel = SavedViewModel.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
+}
 
+extension HomeVC {  // about Compositional Layout
     func setup() {
         let layout = UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
             switch section {
@@ -27,11 +31,43 @@ class HomeVC: UIViewController {
         }
         collectionView.collectionViewLayout = layout
         
+        let mainCellNib = UINib(nibName: String(describing: MainCell.self), bundle: nil)
         let recommendCellNib = UINib(nibName: String(describing: RecommendCell.self), bundle: nil)
-        collectionView.register(recommendCellNib, forCellWithReuseIdentifier: "recommendCell")
-        //collectionView.register(RecommendCell.self, forCellWithReuseIdentifier: "recommendCell")
+        
+        collectionView.register(mainCellNib.self, forCellWithReuseIdentifier: "mainCell")
+        collectionView.register(recommendCellNib.self, forCellWithReuseIdentifier: "recommendCell")
 
         collectionView.contentInsetAdjustmentBehavior = .never
+    }
+    
+    private func mainCompositionalLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(500))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = itemSize
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 1)
+
+        let section = NSCollectionLayoutSection(group: group)
+
+        return section
+    }
+
+    private func recommendCompositionalLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(160))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: itemSize.heightDimension)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
+
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [header]
+        section.orthogonalScrollingBehavior = .continuous
+
+        return section
     }
 }
 
@@ -45,34 +81,39 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0:
             return 1
         case 1:
-            return viewModel.awardMovies.count
+            return movieViewModel.awardMovies.count
         case 2:
-            return viewModel.hotMovies.count
+            return movieViewModel.hotMovies.count
         case 3:
-            return viewModel.myMovies.count
+            return movieViewModel.myMovies.count
         default:
             return 0
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "recommendCell", for: indexPath) as? RecommendCell else { return UICollectionViewCell() }
+        guard let mainCell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as? MainCell else { return UICollectionViewCell() }
+        guard let recommendCell = collectionView.dequeueReusableCell(withReuseIdentifier: "recommendCell", for: indexPath) as? RecommendCell else { return UICollectionViewCell() }
 
         switch indexPath.section {
         case 0:
-            cell.thumbnailImage.image = UIImage(named: "img_header")!
-            cell.thumbnailImage.contentMode = .scaleAspectFill
+            mainCell.thumbnailImage.image = movieViewModel.mainMovie.thmbnail
+            mainCell.playButtonTapHandler = { [weak self] item, movie in
+                self?.playMainMovie(item: item, movie: movie)
+            }
+            return mainCell
         case 1:
-            cell.thumbnailImage.image = viewModel.awardMovies[indexPath.item].thmbnail
+            recommendCell.thumbnailImage.image = movieViewModel.awardMovies[indexPath.item].thmbnail
+            return recommendCell
         case 2:
-            cell.thumbnailImage.image = viewModel.hotMovies[indexPath.item].thmbnail
+            recommendCell.thumbnailImage.image = movieViewModel.hotMovies[indexPath.item].thmbnail
+            return recommendCell
         case 3:
-            cell.thumbnailImage.image = viewModel.myMovies[indexPath.item].thmbnail
+            recommendCell.thumbnailImage.image = movieViewModel.myMovies[indexPath.item].thmbnail
+            return recommendCell
         default:
             return UICollectionViewCell()
         }
-
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -94,39 +135,17 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
 }
 
 extension HomeVC {
-    private func mainCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(400))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    func playMainMovie(item: AVPlayerItem, movie: Movie) {
+        let sb = UIStoryboard(name: "Player", bundle: nil)
+        DispatchQueue.main.async {
+            guard let vc = sb.instantiateViewController(withIdentifier: "PlayerViewVC") as? PlayerViewVC else { return }
 
-        let groupSize = itemSize
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 1)
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
-
-        return section
-    }
-
-    private func recommendCompositionalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(160))
-
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: itemSize.heightDimension)
-
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
-
-        let section = NSCollectionLayoutSection(group: group)
-
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
-
-        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
-        
-        section.boundarySupplementaryItems = [header]
-        section.orthogonalScrollingBehavior = .continuous
-
-        return section
+            vc.modalPresentationStyle = .fullScreen
+            vc.player.replaceCurrentItem(with: item)
+            vc.movieInfo = movie
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
+
+
