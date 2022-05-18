@@ -8,7 +8,7 @@
 import UIKit
 
 class RecommendCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var thumbnailImage: UIImageView!
     
     func updateUI(movie: RecommendMovie) {

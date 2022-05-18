@@ -6,31 +6,57 @@
 //
 
 import UIKit
+import SnapKit
 
-class SavedContentsVC: UIViewController {
-    
-    @IBOutlet weak var tableView: UITableView!
+class SavedContents2VC: UIViewController {
     
     var savedViewModel = SavedViewModel.shared
     
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(SavedCell2.self, forCellReuseIdentifier: SavedCell2.identifier)
+        tableView.separatorStyle = .none
+        
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         savedViewModel.loadMovies()
         tableView.reloadData()
     }
-    
 }
 
-extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource {
+extension SavedContents2VC {
+    func setup() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+}
+
+extension SavedContents2VC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return savedViewModel.numOfMovies
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return TableViewHeaderView()
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "savedCell", for: indexPath) as? SavedCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SavedCell2.identifier, for: indexPath) as? SavedCell2 else { return UITableViewCell() }
         
         cell.updateUI(savedViewModel.savedMovies[indexPath.row])
         
@@ -38,8 +64,7 @@ extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sb = UIStoryboard(name: "Player", bundle: nil)
-        guard let vc = sb.instantiateViewController(withIdentifier: "PlayerViewVC") as? PlayerViewVC else { return }
+        let vc = PlayerView2VC()
         
         vc.modalPresentationStyle = .fullScreen
         vc.player.replaceCurrentItem(with: savedViewModel.playMovie(indexPath.row))
@@ -48,7 +73,19 @@ extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension SavedContentsVC {
+extension SavedContents2VC {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let height: CGFloat = 50
+        return height
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height: CGFloat = 80
+        return height
+    }
+}
+
+extension SavedContents2VC {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "") { (action, view, success) in
             let movie = self.savedViewModel.savedMovies[indexPath.row]
@@ -63,11 +100,4 @@ extension SavedContentsVC {
     }
     
     
-}
-
-extension SavedContentsVC {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height: CGFloat = 80
-        return height
-    }
 }

@@ -41,13 +41,11 @@ class SavedViewModel {
     
     func saveMovies() {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(savedMovies), forKey: "savedMovies")
-        print("저장완료")
     }
     
     func loadMovies() {
         guard let data = UserDefaults.standard.data(forKey: "savedMovies") else { return }
         savedMovies = (try? PropertyListDecoder().decode([Movie].self, from: data)) ?? []
-        print("불러오기완료 --> \(savedMovies)")
     }
     
     func checkMovie(_ movie: Movie) -> Bool {

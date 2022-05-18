@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 class MainCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var thumbnailImage: UIImageView!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var plusButton: UIButton!

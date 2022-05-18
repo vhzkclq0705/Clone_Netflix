@@ -9,25 +9,25 @@ import UIKit
 import AVFoundation
 
 class SearchViewModel {
-    var searchMovies = [Movie]()
+    var movies = [Movie]()
     
     var numOfMovies: Int {
-        return searchMovies.count
+        return movies.count
     }
     
     func searchMovies(_ term: String, completion: @escaping () -> Void) {
         SearchAPI.search(term) { movies in
-            self.searchMovies = movies
+            self.movies = movies
             completion()
         }
     }
     
     func showThumbnail(_ index: Int) -> URL {
-        return URL(string: searchMovies[index].thumbnailPath)!
+        return URL(string: movies[index].thumbnailPath)!
     }
     
     func playMovie(_ index: Int) -> AVPlayerItem {
-        let url = URL(string: searchMovies[index].previewURL)!
+        let url = URL(string: movies[index].previewURL)!
         
         return AVPlayerItem(url: url)
     }

@@ -28,7 +28,7 @@ extension SearchVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchCell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
         
         cell.thumbnailImage.kf.setImage(with: viewModel.showThumbnail(indexPath.item))
         
@@ -43,7 +43,7 @@ extension SearchVC: UICollectionViewDelegate {
         
         vc.modalPresentationStyle = .fullScreen
         vc.player.replaceCurrentItem(with: viewModel.playMovie(indexPath.item))
-        vc.movieInfo = viewModel.searchMovies[indexPath.item]
+        vc.movieInfo = viewModel.movies[indexPath.item]
         present(vc, animated: true, completion: nil)
     }
 }
