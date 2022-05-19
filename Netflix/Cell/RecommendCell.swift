@@ -2,16 +2,34 @@
 //  RecommendCell.swift
 //  Netflix
 //
-//  Created by 권오준 on 2022/05/15.
+//  Created by 권오준 on 2022/05/18.
 //
 
 import UIKit
 
 class RecommendCell: UICollectionViewCell {
+
+    static let identifier = "recommendCell"
     
-    @IBOutlet weak var thumbnailImage: UIImageView!
+    let thumbnailImage = UIImageView()
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setup()
+    }
+}
+
+extension RecommendCell {
+    func setup() {
+        contentView.addSubview(thumbnailImage)
+        
+        thumbnailImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
     
-    func updateUI(movie: RecommendMovie) {
+    func updateUI(_ movie: RecommendMovie) {
         thumbnailImage.image = movie.thmbnail
     }
 }

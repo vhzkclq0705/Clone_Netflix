@@ -7,26 +7,110 @@
 
 import UIKit
 import AVFoundation
+import SnapKit
+import SwiftUI
 
 class MainCell: UICollectionViewCell {
-    
-    @IBOutlet weak var thumbnailImage: UIImageView!
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var infoButton: UIButton!
+
+    static let identifier = "mainCell"
     
     var playButtonTapHandler: ((AVPlayerItem, Movie) -> Void)?
-    var plusButtonTapHandler: (() -> Void)?
-    var infoButtonTapHandler: (() -> Void)?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        playButton.layer.cornerRadius = 5
-        // image를 imageView에 꽉 채우도록 설정
-        thumbnailImage.contentMode = .scaleAspectFill
+    lazy var thumbnailImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
+    
+    lazy var playButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "play.fill",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 15))
+        config.title = "   재생"
+        
+        let button = UIButton()
+        button.layer.cornerRadius = 5
+        button.tintColor = .black
+        button.backgroundColor = .white
+        button.configuration = config
+        button.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var plusButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "plus",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 15))
+        config.title = "내가 찜한 콘텐츠"
+        config.imagePlacement = .top
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.configuration = config
+        
+        return button
+    }()
+    
+    lazy var infoButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "info.circle",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 15))
+        config.title = "정보"
+        config.imagePlacement = .top
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.configuration = config
+        
+        return button
+    }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setup()
     }
 
-    @IBAction func playButtonTapped(_ sender: Any) {
+}
+
+extension MainCell {
+    func setup() {
+        [thumbnailImage, plusButton, playButton, infoButton]
+            .forEach { contentView.addSubview($0) }
+        
+        thumbnailImage.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(50)
+        }
+        
+        playButton.snp.makeConstraints {
+            $0.width.equalTo(100)
+            $0.height.equalTo(35)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(30)
+        }
+        
+        plusButton.snp.makeConstraints {
+            $0.height.equalTo(playButton)
+            $0.right.equalTo(playButton.snp.left).inset(-5)
+            $0.top.equalTo(playButton)
+        }
+        
+        infoButton.snp.makeConstraints {
+            $0.height.equalTo(playButton)
+            $0.left.equalTo(playButton.snp.right).offset(40)
+            $0.top.equalTo(playButton)
+        }
+    }
+    
+    func updateUI(_ movie: RecommendMovie) {
+        thumbnailImage.image = UIImage(named: "img_header")
+    }
+    
+    @objc func playButtonTapped(_ sender: UIButton) {
         SearchAPI.search("interstellar") { movies in
             guard let interstellar = movies.first else { return }
             
@@ -34,19 +118,5 @@ class MainCell: UICollectionViewCell {
             let item = AVPlayerItem(url: url)
             self.playButtonTapHandler?(item, interstellar)
         }
-    }
-    
-    @IBAction func plusButtonTapped(_ sender: Any) {
-        // save the movie to Saved Contents
-        plusButtonTapHandler?()
-    }
-    
-    @IBAction func infoButtonTapped(_ sender: Any) {
-        // present the movie's information
-        infoButtonTapHandler?()
-    }
-    
-    func checkSaved() {
-        
     }
 }

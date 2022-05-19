@@ -9,10 +9,10 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
 
-    let homeVC = Home2VC()
-    let searchVC = Search2VC()
+    let homeVC = HomeVC()
+    let searchVC = SearchVC()
     let upcomingMoviesVC = UpcomingMoviesVC()
-    let savedContentsVC = SavedContents2VC()
+    let savedContentsVC = SavedContentsVC()
     
     let homeTab: UITabBarItem = {
         let tabBarItem: UITabBarItem = UITabBarItem(

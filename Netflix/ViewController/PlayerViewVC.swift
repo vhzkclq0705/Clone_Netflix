@@ -7,23 +7,148 @@
 
 import UIKit
 import AVFoundation
+import SnapKit
 
 class PlayerViewVC: UIViewController {
 
-    @IBOutlet weak var playerView: PlayerView!
-    @IBOutlet weak var controlView: UIView!
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var timeRemainingLabel: UILabel!
-    @IBOutlet weak var movieSlider: UISlider!
-    @IBOutlet weak var saveButton: UIButton!
-    
     var savedViewModel = SavedViewModel.shared
     var movieInfo: Movie?
     let player = AVPlayer()
     // 슬라이더 업데이터를 감지하는 감시자
     var timeObserver: Any?
     var timer: Timer?
+    
+    lazy var playerView: PlayerView = {
+        let view = PlayerView()
+        view.backgroundColor = .black
+        
+        return view
+    }()
+    
+    lazy var controlView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
+    lazy var playButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 30)
+        config.baseBackgroundColor = UIColor.clear
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "pause.fill"), for: .selected)
+        button.configuration = config
+        button.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var saveButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 25)
+        config.baseBackgroundColor = UIColor.clear
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.setImage(UIImage(systemName: "square.and.arrow.down"), for: .normal)
+        button.setImage(UIImage(systemName: "square.and.arrow.down.fill"), for: .selected)
+        button.configuration = config
+        button.addTarget(self, action: #selector(saveButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var backButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "xmark",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.configuration = config
+        button.addTarget(self, action: #selector(backButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var jumpSecond1: UILabel = {
+        let label = UILabel()
+        label.text = "10"
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        
+        return label
+    }()
+    
+    lazy var jumpSecond2: UILabel = {
+        let label = UILabel()
+        label.text = "10"
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        
+        return label
+    }()
+    
+    lazy var jumpBackwardButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "arrow.counterclockwise",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.configuration = config
+        button.addTarget(self, action: #selector(jumpBackwardButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var jumpForwardButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "arrow.clockwise",
+                               withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
+        
+        let button = UIButton()
+        button.tintColor = .white
+        button.configuration = config
+        button.addTarget(self, action: #selector(jumpForwardButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    lazy var timeRemainingLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.text = "00:00"
+        
+        return label
+    }()
+    
+    lazy var movieSlider: UISlider = {
+        let slider = UISlider()
+        // #colorLiteral()을 통해 색상을 코드에서 볼 수 있다.
+        slider.tintColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        slider.thumbTintColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        slider.addTarget(self, action: #selector(adjustMovieSlider(_:)), for: .valueChanged)
+        
+        return slider
+    }()
+    
+    lazy var recognizeTapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
+        
+        return gesture
+    }()
     
     // 가로 모드로 설정
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -32,9 +157,8 @@ class PlayerViewVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        playerView.player = player
-        titleLabel.text = movieInfo?.title
-        setupSaveButton()
+        
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,9 +169,85 @@ class PlayerViewVC: UIViewController {
     }
 }
 
+extension PlayerViewVC {
+    func setupUI() {
+        view.addGestureRecognizer(recognizeTapGesture)
+        
+        [playButton, backButton, saveButton,
+         jumpBackwardButton, jumpForwardButton, jumpSecond1, jumpSecond2,
+         titleLabel, timeRemainingLabel, movieSlider]
+            .forEach { controlView.addSubview($0) }
+        
+        [playerView, controlView]
+            .forEach { view.addSubview($0) }
+        
+        playerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        controlView.snp.makeConstraints {
+            $0.edges.equalTo(playerView)
+        }
+        
+        playButton.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.right.equalToSuperview().inset(10)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.left.equalToSuperview().inset(20)
+        }
+        
+        jumpBackwardButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().inset(250)
+        }
+
+        jumpForwardButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().inset(250)
+        }
+
+        jumpSecond1.snp.makeConstraints {
+            $0.centerX.equalTo(jumpBackwardButton)
+            $0.top.equalTo(jumpBackwardButton.snp.top).inset(18)
+        }
+
+        jumpSecond2.snp.makeConstraints {
+            $0.centerX.equalTo(jumpForwardButton)
+            $0.top.equalTo(jumpForwardButton.snp.top).inset(18)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(20)
+        }
+        
+        timeRemainingLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(50)
+            $0.right.equalToSuperview().inset(10)
+        }
+        
+        movieSlider.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(45)
+            $0.left.equalTo(controlView).inset(20)
+            $0.right.equalTo(timeRemainingLabel.snp.left).inset(-20)
+        }
+        
+        playerView.player = player
+        titleLabel.text = movieInfo?.title
+        setupSaveButton()
+    }
+}
+
 // 재생 관련 버튼 함수
 extension PlayerViewVC {
-    @IBAction func playButtonTapped(_ sender: Any) {
+    @objc func playButtonTapped(_ sender: UIButton) {
         if player.isPlaying {
             pauseState()
         } else {
@@ -55,16 +255,16 @@ extension PlayerViewVC {
         }
     }
     
-    @IBAction func cancleButtonTapped(_ sender: Any) {
+    @objc func backButtonTapped(_ sender: UIButton) {
         reset()
         dismiss(animated: true)
     }
     
-    @IBAction func jumpForward(_ sender: Any) {
+    @objc func jumpForwardButtonTapped(_ sender: UIButton) {
         timeJump(10)
     }
     
-    @IBAction func jumpBackward(_ sender: Any) {
+    @objc func jumpBackwardButtonTapped(_ sender: UIButton) {
         timeJump(-10)
     }
     
@@ -93,7 +293,7 @@ extension PlayerViewVC {
 
 // 진행 상태(슬라이더, 남은 시간) 함수
 extension PlayerViewVC {
-    @IBAction func adjustMovieSlider(_ sender: Any) {
+    @objc func adjustMovieSlider(_ sender: UIButton) {
         // 영화의 전체 시간
         guard let duration = player.currentItem?.duration else { return }
         // 전체 시간을 초 단위로 변경한 후, 슬라이더의 value와 곱해준다.
@@ -153,12 +353,12 @@ extension PlayerViewVC {
 // Control View에 대한 함수
 extension PlayerViewVC {
     // Control View가 안보면 보이게, 보인다면 안보이게 한다.
-    @IBAction func recognizeTapped(_ sender: Any) {
+    @objc func recognizeTapped(_ sender: Any) {
         controlView.isHidden = !controlView.isHidden
         resetTimer()
     }
-    
-    @IBAction func saveButtonTapped(_ sender: Any) {
+
+    @objc func saveButtonTapped(_ sender: UIButton) {
         if let movie = movieInfo {
             if saveButton.isSelected {
                 savedViewModel.deleteMovie(movie)
