@@ -8,6 +8,8 @@
 import UIKit
 import AVFoundation
 
+// https://developer.apple.com/documentation/avfoundation/avplayerlayer
+
 class PlayerView: UIView {
     var player: AVPlayer? {
         get {

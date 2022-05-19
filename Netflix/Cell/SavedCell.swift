@@ -42,7 +42,7 @@ class SavedCell: UITableViewCell {
     }
 }
 
-extension SavedCell {
+extension SavedCell {   // About UI Setup
     func setup() {
         [thumbnailImage, titleLabel, directorLabel].forEach { contentView.addSubview($0) }
         

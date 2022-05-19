@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 class SearchViewModel {
-    var movies = [Movie]()
+    var movies = [Movie]() 
     
     var numOfMovies: Int {
         return movies.count

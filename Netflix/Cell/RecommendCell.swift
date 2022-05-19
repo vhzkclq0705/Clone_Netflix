@@ -20,7 +20,7 @@ class RecommendCell: UICollectionViewCell {
     }
 }
 
-extension RecommendCell {
+extension RecommendCell {   // About UI Setup
     func setup() {
         contentView.addSubview(thumbnailImage)
         

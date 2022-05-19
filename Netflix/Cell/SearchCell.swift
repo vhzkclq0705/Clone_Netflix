@@ -21,7 +21,7 @@ class SearchCell: UICollectionViewCell {
     }
 }
 
-extension SearchCell {
+extension SearchCell {  // About UI Setup
     func setup() {
         contentView.addSubview(thumbnailImage)
         

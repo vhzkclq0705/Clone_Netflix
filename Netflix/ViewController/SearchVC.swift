@@ -36,7 +36,7 @@ class SearchVC: UIViewController {
     
 }
 
-extension SearchVC {
+extension SearchVC {    // About UI Setup
     func setup() {
         [searchBar, collectionView].forEach { view.addSubview($0) }
         
@@ -67,7 +67,7 @@ extension SearchVC {
     }
 }
 
-extension SearchVC: UICollectionViewDataSource {
+extension SearchVC: UICollectionViewDataSource, UICollectionViewDelegate {    // About CollectionView Showing
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numOfMovies
     }
@@ -79,9 +79,7 @@ extension SearchVC: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension SearchVC: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PlayerViewVC()
         
@@ -92,7 +90,7 @@ extension SearchVC: UICollectionViewDelegate {
     }
 }
 
-extension SearchVC: UISearchBarDelegate {
+extension SearchVC: UISearchBarDelegate {   // About SearchBar
     // 키보드를 내려가게 하는 함수
     private func dismissKeyboard() {
         searchBar.resignFirstResponder()

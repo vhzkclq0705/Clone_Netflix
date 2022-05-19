@@ -163,13 +163,14 @@ class PlayerViewVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         playState()
         setupPlayer()
         resetTimer()
     }
 }
 
-extension PlayerViewVC {
+extension PlayerViewVC {    // About UI Setup
     func setupUI() {
         view.addGestureRecognizer(recognizeTapGesture)
         
@@ -245,8 +246,7 @@ extension PlayerViewVC {
     }
 }
 
-// 재생 관련 버튼 함수
-extension PlayerViewVC {
+extension PlayerViewVC {    // About Related to Video Play
     @objc func playButtonTapped(_ sender: UIButton) {
         if player.isPlaying {
             pauseState()
@@ -291,8 +291,7 @@ extension PlayerViewVC {
     }
 }
 
-// 진행 상태(슬라이더, 남은 시간) 함수
-extension PlayerViewVC {
+extension PlayerViewVC {    // About Play State(UISlider, Reamaning Time)
     @objc func adjustMovieSlider(_ sender: UIButton) {
         // 영화의 전체 시간
         guard let duration = player.currentItem?.duration else { return }
@@ -350,8 +349,7 @@ extension PlayerViewVC {
     }
 }
 
-// Control View에 대한 함수
-extension PlayerViewVC {
+extension PlayerViewVC {    // About Control View
     // Control View가 안보면 보이게, 보인다면 안보이게 한다.
     @objc func recognizeTapped(_ sender: Any) {
         controlView.isHidden = !controlView.isHidden
@@ -386,7 +384,7 @@ extension PlayerViewVC {
     }
 }
 
-extension AVPlayer {
+extension AVPlayer {    // AVPlayer Setting
     var isPlaying: Bool {
         guard self.currentItem != nil else { return false }
         return self.rate != 0

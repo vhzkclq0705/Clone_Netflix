@@ -26,7 +26,7 @@ class TableViewHeaderView: UITableViewHeaderFooterView {
     }
 }
 
-extension TableViewHeaderView {
+extension TableViewHeaderView {     // About UI Setup
     func setup() {
         addSubview(headerLabel)
         

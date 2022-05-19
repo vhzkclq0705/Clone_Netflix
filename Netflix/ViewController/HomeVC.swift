@@ -31,7 +31,7 @@ class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC {  // about setup and Compositional Layout
+extension HomeVC {  // About UI Setup
     func setup() {
         let tabBarHeight: CGFloat = (self.tabBarController?.tabBar.frame.size.height)!
    
@@ -88,7 +88,7 @@ extension HomeVC {  // about setup and Compositional Layout
     }
 }
 
-extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {    // About CollectionView Showing
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Section.allCases.count
     }
@@ -151,7 +151,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-extension HomeVC {
+extension HomeVC {  // About Main Video Play
     func playMainMovie(item: AVPlayerItem, movie: Movie) {
         DispatchQueue.main.async {
             let vc = PlayerViewVC()

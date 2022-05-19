@@ -60,7 +60,7 @@ class MainTabBarController: UITabBarController {
     }
 }
 
-extension MainTabBarController {
+extension MainTabBarController {    // About UI Setup
     func setupTabBar() {
         tabBar.tintColor = .white
         tabBar.backgroundColor = .systemGray6

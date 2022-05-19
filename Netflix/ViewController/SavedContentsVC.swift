@@ -31,7 +31,7 @@ class SavedContentsVC: UIViewController {
     }
 }
 
-extension SavedContentsVC {
+extension SavedContentsVC { // About UI Setup
     func setup() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -46,7 +46,7 @@ extension SavedContentsVC {
     }
 }
 
-extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource {
+extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource { // About TableView Showing
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return savedViewModel.numOfMovies
@@ -74,7 +74,7 @@ extension SavedContentsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension SavedContentsVC {
+extension SavedContentsVC { // About Cell and Header size
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let height: CGFloat = 50
         return height
@@ -86,7 +86,7 @@ extension SavedContentsVC {
     }
 }
 
-extension SavedContentsVC {
+extension SavedContentsVC { // About Cell Swipe Action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal, title: "") { (action, view, success) in
             let movie = self.savedViewModel.savedMovies[indexPath.row]

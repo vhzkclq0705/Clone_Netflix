@@ -76,7 +76,7 @@ class MainCell: UICollectionViewCell {
 
 }
 
-extension MainCell {
+extension MainCell {    // About UI Setup
     func setup() {
         [thumbnailImage, plusButton, playButton, infoButton]
             .forEach { contentView.addSubview($0) }
@@ -109,7 +109,9 @@ extension MainCell {
     func updateUI(_ movie: RecommendMovie) {
         thumbnailImage.image = UIImage(named: "img_header")
     }
-    
+}
+
+extension MainCell {    // About Cell Button Action
     @objc func playButtonTapped(_ sender: UIButton) {
         SearchAPI.search("interstellar") { movies in
             guard let interstellar = movies.first else { return }

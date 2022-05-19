@@ -26,7 +26,7 @@ class CollectionViewHeaderView: UICollectionReusableView {
     }
 }
 
-extension CollectionViewHeaderView {
+extension CollectionViewHeaderView {    // About UI Setup
     func setup() {
         addSubview(headerLabel)
         

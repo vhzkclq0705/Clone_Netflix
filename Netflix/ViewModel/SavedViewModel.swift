@@ -13,7 +13,7 @@ class SavedViewModel {
     
     private init() {}
     
-    var savedMovies = [Movie]()
+    var savedMovies = [Movie]() 
     
     var numOfMovies: Int {
         return savedMovies.count

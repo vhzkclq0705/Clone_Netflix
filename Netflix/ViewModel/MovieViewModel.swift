@@ -44,7 +44,7 @@ class MovieViewModel {
     
     var myMovies: [RecommendMovie] {
         return fetch(.my)
-    }
+    } 
 }
 
 extension MovieViewModel {
