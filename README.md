@@ -4,7 +4,8 @@ It's an app made by cloning Netflix.
 
 I made it my style based on Netflix which is currently being serviced by App Store.
 
-It was written on the Storyboard and is currently being converted to Programmatically.
+~~It was written on the Storyboard and is currently being converted to Programmatically~~  
+It was completely converted into programmatically
 
 ## Language
 
