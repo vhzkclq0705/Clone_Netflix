@@ -99,5 +99,5 @@ It was written on the Storyboard and is currently being converted to Programmati
 
 ## Library
 
-- AVFoundation(Internal)
-- Kingfisher(External)
+- SnapKit
+- Kingfisher
